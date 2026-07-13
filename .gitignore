@@ -1,3 +1,14 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# API Keys & Secrets
+*.pem
+*.key
+secrets/
+api_keys/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -26,16 +37,19 @@ ENV/
 env/
 .venv/
 
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
 *~
-
-# Environment variables
-.env
-.env.local
 
 # Logs
 logs/
@@ -48,11 +62,22 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
 
-# Build
-*.pyc
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (large datasets)
+*.csv
+*.json
+!package.json
+*.parquet
+
+# Neo4j data exports
+*.dump
+neo4j-data/
