@@ -1,0 +1,69 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# API Keys & Secrets
+*.pem
+*.key
+secrets/
+api_keys/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+env/
+ENV/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (large datasets)
+*.csv
+*.json
+!package.json
+*.db
+*.sqlite
+*.parquet
+
+# Neo4j data exports (keep import scripts, ignore raw dumps)
+*.dump
+neo4j-data/
