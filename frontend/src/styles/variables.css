@@ -1,60 +1,59 @@
 :root {
-  /* 主色调 - 绿色系（参考图片） */
-  --color-primary: #2E7D32;
-  --color-primary-dark: #1B5E20;
-  --color-primary-light: #43A047;
+  --color-primary: #C41E3A;
+  --color-primary-dark: #8B0000;
+  --color-primary-light: #DC143C;
   
-  /* 辅色 - 米白色/浅米色 */
-  --color-secondary: #F5F0E6;
-  --color-secondary-dark: #E8E0D0;
+  --color-secondary: #FDF5E6;
+  --color-secondary-dark: #FAEBD7;
   
-  /* 侧边栏背景 */
-  --color-sidebar: #1B5E20;
-  --color-sidebar-hover: #2E7D32;
+  --color-bamboo: #2E7D32;
+  --color-bamboo-light: #4CAF50;
   
-  /* 聊天区域背景 */
-  --color-chat-bg: #4CAF50;
-  --color-chat-bg-dark: #388E3C;
+  --color-gold: #D4A574;
+  --color-gold-light: #E6C896;
   
-  /* 强调色 */
-  --color-accent: #FFA000;
-  --color-accent-light: #FFCA28;
+  --color-sidebar: #1A1A2E;
+  --color-sidebar-hover: #16213E;
   
-  /* 文字颜色 */
-  --color-text: #333333;
-  --color-text-secondary: #666666;
+  --color-chat-bg: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+  
+  --color-accent-red: #FF4757;
+  --color-accent-gold: #FFA502;
+  --color-accent-green: #2ED573;
+  
+  --color-text: #2C3E50;
+  --color-text-secondary: #5D6D7E;
   --color-text-light: #FFFFFF;
   --color-text-sidebar: #E8E0D0;
   
-  /* 消息气泡 */
-  --color-bg-user: #2E7D32;
+  --color-bg-user: #C41E3A;
   --color-bg-system: #FFFFFF;
   
-  /* 间距 */
+  --color-card-bg: #FFFFFF;
+  
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 24px;
   --spacing-xl: 32px;
+  --spacing-xxl: 48px;
   
-  /* 圆角 */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
+  --radius-full: 50%;
   
-  /* 阴影 */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.2);
   
-  /* 字体 */
   --font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   
-  /* 过渡 */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
   
-  /* 侧边栏宽度 */
   --sidebar-width: 260px;
 }
