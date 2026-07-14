@@ -4,7 +4,7 @@ import ChatWindow from './ChatWindow'
 import InputArea from './InputArea'
 import { sendMessage } from '../services/api'
 
-function ChatPage({ dialect, onBack }) {
+function ChatPage({ dialect, onBack, onNavigate }) {
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [sessionId] = useState(() => 
@@ -68,7 +68,7 @@ function ChatPage({ dialect, onBack }) {
 
   return (
     <div className="chat-page">
-      <Sidebar dialect={dialect} onBack={onBack} />
+      <Sidebar dialect={dialect} onBack={onBack} onNavigate={onNavigate} />
       <div className="chat-main">
         <div className="chat-header">
           <div className="header-info">

@@ -1,4 +1,12 @@
-function Sidebar({ dialect, onBack }) {
+function Sidebar({ onBack, onNavigate }) {
+  const menuItems = [
+    { id: 'chat', icon: '💬', label: '开始聊天', description: '摆龙门阵' },
+    { id: 'dictionary', icon: '📖', label: '方言词典', description: '查询方言词汇' },
+    { id: 'scenes', icon: '🎭', label: '场景对话', description: '常用对话场景' },
+    { id: 'culture', icon: '🏮', label: '文化百科', description: '美食、景点、民俗' },
+    { id: 'intent', icon: '🎯', label: '意图识别', description: '对话意图分析' }
+  ]
+
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -17,14 +25,25 @@ function Sidebar({ dialect, onBack }) {
         <span className="user-role">测试</span>
       </div>
 
-      <div className="sidebar-actions">
-        <button className="action-btn">
-          <span className="action-icon">➕</span>
-          摆个新龙门阵
-        </button>
+      <div className="sidebar-menu">
+        <h3 className="menu-title">功能入口</h3>
+        {menuItems.map((item) => (
+          <button
+            key={item.id}
+            className="menu-item"
+            onClick={() => onNavigate(item.id)}
+          >
+            <span className="menu-icon">{item.icon}</span>
+            <div className="menu-content">
+              <span className="menu-label">{item.label}</span>
+              <span className="menu-desc">{item.description}</span>
+            </div>
+          </button>
+        ))}
       </div>
 
       <div className="sidebar-chats">
+        <h3 className="menu-title">会话列表</h3>
         <div className="chat-item active">
           <div className="chat-icon">💬</div>
           <div className="chat-info">
