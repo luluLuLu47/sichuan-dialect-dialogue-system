@@ -1,0 +1,209 @@
+/* 重置样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+#root {
+  height: 100%;
+}
+
+/* 主应用容器 */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  box-shadow: var(--shadow-lg);
+}
+
+/* 头部样式 */
+.header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-light);
+  padding: var(--spacing-lg) var(--spacing-md);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+}
+
+.header-subtitle {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+/* 对话窗口 */
+.chat-window {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  background: var(--color-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.empty-state p {
+  font-size: 1rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state .hint {
+  font-size: 0.875rem;
+  color: var(--color-primary);
+}
+
+/* 消息气泡 */
+.message-bubble {
+  max-width: 75%;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn 0.3s ease;
+}
+
+.message-bubble.user {
+  align-self: flex-end;
+  background: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+.message-bubble.system {
+  align-self: flex-start;
+  background: var(--color-bg-system);
+  color: var(--color-text);
+  border: 1px solid var(--color-secondary-dark);
+}
+
+.message-content {
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.message-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-sm);
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.message-intent {
+  background: var(--color-secondary);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+/* 输入区域 */
+.input-area {
+  display: flex;
+  padding: var(--spacing-md);
+  background: #FFFFFF;
+  border-top: 1px solid var(--color-secondary-dark);
+  gap: var(--spacing-sm);
+}
+
+.input-field {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-secondary-dark);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-family: var(--font-family);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.input-field:focus {
+  border-color: var(--color-primary);
+}
+
+.input-field:disabled {
+  background: var(--color-secondary);
+  cursor: not-allowed;
+}
+
+.send-button {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.send-button:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  transform: scale(1.02);
+}
+
+.send-button:disabled {
+  background: var(--color-secondary-dark);
+  cursor: not-allowed;
+}
+
+/* 加载指示器 */
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.loading-dots {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: 0s; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* 响应式 */
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 1.25rem;
+  }
+  
+  .message-bubble {
+    max-width: 85%;
+  }
+  
+  .send-button {
+    padding: var(--spacing-md);
+  }
+}
