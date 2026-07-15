@@ -12,7 +12,7 @@ from app.services.llm_service import get_llm_service
 class PipelineResult:
     """流水线处理结果"""
     original_input: str                    # 原始输入
-    normalized_input: str                  # 标准化输入
+    normalized_input: str = ""             # 标准化输入
     intent: Optional[str] = None           # 识别的意图
     scene: Optional[str] = None            # 识别的场景
     entities: List[str] = None             # 识别的实体
