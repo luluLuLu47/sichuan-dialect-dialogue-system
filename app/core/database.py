@@ -10,20 +10,21 @@ from .config import settings
 
 class DatabaseManager:
     """Neo4j数据库管理器"""
-    
+
     _driver: Optional[AsyncDriver] = None
-    
+
     @classmethod
     async def get_driver(cls) -> AsyncDriver:
         """获取数据库驱动实例"""
         if cls._driver is None:
             await cls.connect()
         return cls._driver
-    
+
     @classmethod
     async def connect(cls) -> None:
         """连接数据库"""
         try:
+            # 使用元组格式的认证（用户名，密码）
             cls._driver = AsyncGraphDatabase.driver(
                 settings.neo4j_uri,
                 auth=(settings.neo4j_user, settings.neo4j_password)
