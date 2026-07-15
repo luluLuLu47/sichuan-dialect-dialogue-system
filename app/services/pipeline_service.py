@@ -25,7 +25,7 @@ class PipelineResult:
 
 class PipelineService:
     """
-    7层流水线处理服务
+    8层流水线处理服务
     
     处理流程：
     1. 输入标准化 -> 文本清洗、方言词归一化
@@ -35,6 +35,7 @@ class PipelineService:
     5. 知识检索 -> 从Neo4j查询相关数据
     6. 模板匹配 -> 匹配方言表达模板
     7. 响应生成 -> 使用LLM生成最终回复
+    8. 方言纠错 -> 检查并修正方言表达
     """
     
     def __init__(self):
@@ -88,6 +89,10 @@ class PipelineService:
                 result.response_template
             )
             logger.debug(f"[Layer 7] 回复: {result.final_response}")
+            
+            # Layer 8: 方言纠错
+            result.final_response = await self._correct_dialect(result.final_response)
+            logger.debug(f"[Layer 8] 纠错后: {result.final_response}")
             
             result.confidence = 0.85  # 简单置信度
             result.metadata = {"pipeline_version": "1.0"}
@@ -364,6 +369,47 @@ class PipelineService:
             if template:
                 return template
             return "你说啥子？我晓得不多，再说说看！"
+    
+    # ==================== Layer 8: 方言纠错 ====================
+    
+    async def _correct_dialect(self, text: str) -> str:
+        """
+        方言纠错
+        
+        检查并修正方言表达：
+        - 语法纠错
+        - 用词修正
+        - 语调调整
+        """
+        # 常见方言错误修正映射
+        corrections = {
+            "撒子": "啥子",
+            "杂个": "咋个",
+            "啷个": "咋个",
+            "搞啥": "搞啥子",
+            "做啥": "做啥子",
+            "那里": "那儿",
+            "这里": "这儿",
+        }
+        
+        # 应用修正
+        corrected = text
+        for wrong, right in corrections.items():
+            if wrong in corrected:
+                corrected = corrected.replace(wrong, right)
+                logger.debug(f"方言纠错: {wrong} -> {right}")
+        
+        # 检查是否有方言词需要增强
+        dialect_enhancements = {
+            "好": "巴适",
+            "很": "得很",
+            "非常": "硬是",
+        }
+        
+        # 简单增强（可选）
+        # 如果需要更强的方言风格，可以在这里增强
+        
+        return corrected
 
 
 # 单例

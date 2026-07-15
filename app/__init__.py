@@ -9,7 +9,7 @@ import sys
 
 from app.core.config import settings
 from app.core.database import DatabaseManager
-from app.api import chat_router, health_router
+from app.api import chat_router, health_router, knowledge_router
 
 
 # 配置日志
@@ -88,6 +88,7 @@ def create_app() -> FastAPI:
     # 注册路由
     app.include_router(health_router)
     app.include_router(chat_router)
+    app.include_router(knowledge_router)
     
     return app
 
