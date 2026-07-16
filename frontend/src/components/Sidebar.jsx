@@ -1,4 +1,29 @@
-function Sidebar({ onBack, onNavigate }) {
+import { useState, useEffect } from 'react'
+import { getSessions } from '../services/api'
+
+function Sidebar({ onBack, onNavigate, currentSessionId, onSessionSelect }) {
+  const [sessions, setSessions] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadSessions()
+  }, [])
+
+  const loadSessions = async () => {
+    try {
+      setLoading(true)
+      const result = await getSessions()
+      setSessions(result.data || [])
+    } catch (error) {
+      console.error('Failed to load sessions:', error)
+      setSessions([
+        { session_id: 'default', summary: '开始新对话', updated_at: '刚刚', messages_count: 0 }
+      ])
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const menuItems = [
     { id: 'chat', icon: '💬', label: '开始聊天', description: '摆龙门阵' },
     { id: 'dictionary', icon: '📖', label: '方言词典', description: '查询方言词汇' },
@@ -44,13 +69,37 @@ function Sidebar({ onBack, onNavigate }) {
 
       <div className="sidebar-chats">
         <h3 className="menu-title">会话列表</h3>
-        <div className="chat-item active">
-          <div className="chat-icon">💬</div>
-          <div className="chat-info">
-            <span className="chat-name">默认会话</span>
-            <span className="chat-desc">开始对话</span>
+        {loading ? (
+          <div className="loading-small">加载中...</div>
+        ) : sessions.length === 0 ? (
+          <div className="chat-item" onClick={() => onNavigate('chat')}>
+            <div className="chat-icon">💬</div>
+            <div className="chat-info">
+              <span className="chat-name">开始新对话</span>
+              <span className="chat-desc">点击开始聊天</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          sessions.map((session) => (
+            <div
+              key={session.session_id}
+              className={`chat-item ${currentSessionId === session.session_id ? 'active' : ''}`}
+              onClick={() => onSessionSelect && onSessionSelect(session.session_id)}
+            >
+              <div className="chat-icon">💬</div>
+              <div className="chat-info">
+                <span className="chat-name">{session.summary || '无标题对话'}</span>
+                <span className="chat-desc">
+                  {session.messages_count > 0 ? `${session.messages_count}条消息` : '新对话'}
+                </span>
+              </div>
+              <span className="chat-time">{session.updated_at}</span>
+            </div>
+          ))
+        )}
+        <button className="new-chat-btn" onClick={() => onNavigate('chat')}>
+          + 新对话
+        </button>
       </div>
     </aside>
   )

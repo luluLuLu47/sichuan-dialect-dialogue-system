@@ -4,6 +4,7 @@
 from fastapi import APIRouter, Query
 from typing import List, Optional
 from app.core.database import DatabaseManager, KG_QUERIES
+from app.services.search_service import get_search_service
 from loguru import logger
 
 router = APIRouter(prefix="/api/v1/knowledge", tags=["知识图谱"])
@@ -284,3 +285,124 @@ async def get_expressions(
     except Exception as e:
         logger.error(f"查询表达模板失败: {e}")
         return {"status": "error", "message": str(e), "data": []}
+
+
+# ==================== 实体搜索（联网+知识图谱） ====================
+
+@router.get("/search", summary="实体搜索")
+async def search_entity(
+    query: str = Query(..., description="搜索关键词"),
+    entity_type: Optional[str] = Query(None, description="实体类型: food/attraction/custom/dialect")
+):
+    try:
+        search_service = get_search_service()
+        result = await search_service.get_entity_info(query)
+
+        if result["status"] == "success":
+            return {"status": "success", "data": result["data"]}
+
+        kg_result = None
+        if entity_type == "food" or entity_type is None:
+            query_cypher = """
+                MATCH (f:Food)
+                WHERE f.name CONTAINS $query OR f.dialect_alias CONTAINS $query
+                RETURN f.name as name, f.type as type, 
+                       f.dialect_alias as dialect_alias,
+                       f.local_recommend_phrase as phrase
+                LIMIT 1
+            """
+            kg_result = await DatabaseManager.execute_query(query_cypher, {"query": query})
+
+        if not kg_result or entity_type == "attraction":
+            query_cypher = """
+                MATCH (a:Attraction)
+                WHERE a.name CONTAINS $query
+                RETURN a.name as name, a.type as type,
+                       a.local_description as description
+                LIMIT 1
+            """
+            kg_result = await DatabaseManager.execute_query(query_cypher, {"query": query})
+
+        if kg_result:
+            return {"status": "success", "data": kg_result[0]}
+
+        return {"status": "not_found", "data": {"title": query, "summary": f"未找到'{query}'的详细信息"}}
+
+    except Exception as e:
+        logger.error(f"实体搜索失败: {e}")
+        return {"status": "error", "message": str(e), "data": None}
+
+
+# ==================== 美食详情 ====================
+
+@router.get("/food/{food_name}", summary="获取美食详情")
+async def get_food_detail(food_name: str):
+    try:
+        search_service = get_search_service()
+
+        query = """
+            MATCH (f:Food)
+            WHERE f.name = $name OR f.dialect_alias CONTAINS $name
+            OPTIONAL MATCH (f)-[:BELONGS_REGION]->(l:Location)
+            RETURN f.name as name, f.type as type,
+                   f.dialect_alias as dialect_alias,
+                   f.local_recommend_phrase as phrase,
+                   l.name as region
+            LIMIT 1
+        """
+        results = await DatabaseManager.execute_query(query, {"name": food_name})
+
+        if results:
+            food_info = results[0]
+            search_result = await search_service.get_entity_info(food_name)
+            if search_result["status"] == "success":
+                food_info["summary"] = search_result["data"]["summary"]
+                food_info["image"] = search_result["data"]["image"]
+            return {"status": "success", "data": food_info}
+
+        search_result = await search_service.get_entity_info(food_name)
+        if search_result["status"] == "success":
+            return {"status": "success", "data": search_result["data"]}
+
+        return {"status": "not_found", "data": None}
+
+    except Exception as e:
+        logger.error(f"获取美食详情失败: {e}")
+        return {"status": "error", "message": str(e), "data": None}
+
+
+# ==================== 景点详情 ====================
+
+@router.get("/attraction/{attraction_name}", summary="获取景点详情")
+async def get_attraction_detail(attraction_name: str):
+    try:
+        search_service = get_search_service()
+
+        query = """
+            MATCH (a:Attraction)
+            WHERE a.name = $name
+            OPTIONAL MATCH (a)-[:BELONGS_REGION]->(l:Location)
+            RETURN a.name as name, a.type as type,
+                   a.local_description as description,
+                   l.name as region
+            LIMIT 1
+        """
+        results = await DatabaseManager.execute_query(query, {"name": attraction_name})
+
+        if results:
+            attr_info = results[0]
+            search_result = await search_service.get_entity_info(attraction_name)
+            if search_result["status"] == "success":
+                attr_info["summary"] = search_result["data"]["summary"]
+                attr_info["image"] = search_result["data"]["image"]
+            return {"status": "success", "data": attr_info}
+
+        search_result = await search_service.get_entity_info(attraction_name)
+        if search_result["status"] == "success":
+            return {"status": "success", "data": search_result["data"]}
+
+        return {"status": "not_found", "data": None}
+
+    except Exception as e:
+        logger.error(f"获取景点详情失败: {e}")
+        return {"status": "error", "message": str(e), "data": None}

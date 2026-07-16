@@ -62,3 +62,53 @@ export async function getIntents() {
   if (!response.ok) throw new Error('Failed to fetch intents')
   return response.json()
 }
+
+export async function searchEntity(query, entityType = null) {
+  let url = `${API_BASE}/api/v1/knowledge/search?query=${encodeURIComponent(query)}`
+  if (entityType) url += `&entity_type=${entityType}`
+  const response = await fetch(url)
+  if (!response.ok) throw new Error('Failed to search entity')
+  return response.json()
+}
+
+export async function getFoodDetail(foodName) {
+  const response = await fetch(`${API_BASE}/api/v1/knowledge/food/${encodeURIComponent(foodName)}`)
+  if (!response.ok) throw new Error('Failed to fetch food detail')
+  return response.json()
+}
+
+export async function getAttractionDetail(attractionName) {
+  const response = await fetch(`${API_BASE}/api/v1/knowledge/attraction/${encodeURIComponent(attractionName)}`)
+  if (!response.ok) throw new Error('Failed to fetch attraction detail')
+  return response.json()
+}
+
+export async function getSessions() {
+  const response = await fetch(`${API_BASE}/api/v1/memory/sessions`)
+  if (!response.ok) throw new Error('Failed to fetch sessions')
+  return response.json()
+}
+
+export async function getSessionDetail(sessionId) {
+  const response = await fetch(`${API_BASE}/api/v1/memory/session/${sessionId}`)
+  if (!response.ok) throw new Error('Failed to fetch session detail')
+  return response.json()
+}
+
+export async function updateSessionSummary(sessionId, summary, messagesCount = 0) {
+  const params = new URLSearchParams({ summary, messages_count: messagesCount.toString() })
+  const response = await fetch(`${API_BASE}/api/v1/memory/session/${sessionId}/summary?${params}`, {
+    method: 'POST'
+  })
+  if (!response.ok) throw new Error('Failed to update session summary')
+  return response.json()
+}
+
+export async function addMemory(sessionId, content, memoryType = 'short_term', summary = '') {
+  const params = new URLSearchParams({ content, memory_type: memoryType, summary })
+  const response = await fetch(`${API_BASE}/api/v1/memory/session/${sessionId}/memory?${params}`, {
+    method: 'POST'
+  })
+  if (!response.ok) throw new Error('Failed to add memory')
+  return response.json()
+}

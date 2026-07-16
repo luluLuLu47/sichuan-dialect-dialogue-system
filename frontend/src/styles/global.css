@@ -898,6 +898,248 @@ html, body {
   font-style: italic;
 }
 
+/* ==================== 词典详情面板 ==================== */
+
+.dictionary-layout {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+.dictionary-list {
+  flex: 1;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.dictionary-item.clickable {
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dictionary-item.clickable:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.dictionary-item.selected {
+  background: var(--color-secondary);
+  border-left-color: var(--color-accent-gold);
+}
+
+.word-pronunciation {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-bottom: var(--spacing-xs);
+}
+
+.word-detail-panel {
+  width: 350px;
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: var(--spacing-lg);
+  height: fit-content;
+}
+
+.detail-content {
+  margin-top: var(--spacing-md);
+}
+
+.detail-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.detail-summary {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-top: var(--spacing-sm);
+}
+
+.no-detail {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: var(--spacing-xl);
+}
+
+/* ==================== 文化百科可点击项目 ==================== */
+
+.category-item.clickable {
+  cursor: pointer;
+}
+
+.category-item.clickable:hover {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-light);
+}
+
+/* ==================== 详情模态框 ==================== */
+
+.detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.detail-modal-content {
+  background: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-close {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 32px;
+  height: 32px;
+  background: var(--color-secondary);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+}
+
+.modal-close:hover {
+  background: var(--color-secondary-dark);
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-lg);
+}
+
+.modal-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.modal-info {
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.modal-info p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.modal-summary {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-secondary);
+  border-radius: var(--radius-md);
+}
+
+/* ==================== 记忆面板 ==================== */
+
+.memory-panel {
+  background: rgba(255, 255, 255, 0.9);
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-secondary);
+}
+
+.memory-panel h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.memory-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.memory-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.memory-content {
+  font-size: 0.8rem;
+  color: var(--color-text);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.memory-time {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  margin-left: var(--spacing-sm);
+}
+
+/* ==================== 会话列表增强 ==================== */
+
+.chat-time {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  margin-left: auto;
+}
+
+.new-chat-btn {
+  width: 100%;
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-md);
+  color: var(--color-text-sidebar);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.new-chat-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-accent-gold);
+}
+
+.loading-small {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  padding: var(--spacing-md);
+}
+
 /* 响应式 */
 @media (max-width: 768px) {
   .sidebar {
