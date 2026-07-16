@@ -16,16 +16,13 @@ function Sidebar({ onBack, onNavigate, currentSessionId, onSessionSelect }) {
       setSessions(result.data || [])
     } catch (error) {
       console.error('Failed to load sessions:', error)
-      setSessions([
-        { session_id: 'default', summary: '开始新对话', updated_at: '刚刚', messages_count: 0 }
-      ])
+      setSessions([])
     } finally {
       setLoading(false)
     }
   }
 
   const menuItems = [
-    { id: 'chat', icon: '💬', label: '开始聊天', description: '摆龙门阵' },
     { id: 'dictionary', icon: '📖', label: '方言词典', description: '查询方言词汇' },
     { id: 'scenes', icon: '🎭', label: '场景对话', description: '常用对话场景' },
     { id: 'culture', icon: '🏮', label: '文化百科', description: '美食、景点、民俗' },
@@ -68,16 +65,13 @@ function Sidebar({ onBack, onNavigate, currentSessionId, onSessionSelect }) {
       </div>
 
       <div className="sidebar-chats">
-        <h3 className="menu-title">会话列表</h3>
+        <h3 className="menu-title">历史会话</h3>
         {loading ? (
           <div className="loading-small">加载中...</div>
         ) : sessions.length === 0 ? (
-          <div className="chat-item" onClick={() => onNavigate('chat')}>
-            <div className="chat-icon">💬</div>
-            <div className="chat-info">
-              <span className="chat-name">开始新对话</span>
-              <span className="chat-desc">点击开始聊天</span>
-            </div>
+          <div className="empty-chats">
+            <span>暂无历史会话</span>
+            <span className="empty-hint">请返回主页开始聊天</span>
           </div>
         ) : (
           sessions.map((session) => (
@@ -97,9 +91,6 @@ function Sidebar({ onBack, onNavigate, currentSessionId, onSessionSelect }) {
             </div>
           ))
         )}
-        <button className="new-chat-btn" onClick={() => onNavigate('chat')}>
-          + 新对话
-        </button>
       </div>
     </aside>
   )

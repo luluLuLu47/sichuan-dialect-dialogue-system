@@ -14,22 +14,18 @@ function App() {
     icon: '🌶️'
   })
 
-  const handleStartChat = (dialect) => {
-    setCurrentPage('chat')
+  const handleNavigate = (pageId) => {
+    setCurrentPage(pageId)
   }
 
   const handleBack = () => {
     setCurrentPage('home')
   }
 
-  const handleNavigate = (pageId) => {
-    setCurrentPage(pageId)
-  }
-
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage onStartChat={handleStartChat} />
+        return <HomePage onNavigate={handleNavigate} />
       case 'chat':
         return (
           <ChatPage 
@@ -47,7 +43,7 @@ function App() {
       case 'intent':
         return <IntentPage onBack={handleBack} />
       default:
-        return <HomePage onStartChat={handleStartChat} />
+        return <HomePage onNavigate={handleNavigate} />
     }
   }
 
